@@ -5,7 +5,7 @@ import { useContext } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { AuthContext } from '../context/AuthContext'
-import { ChatContext } from '../context/chatContext'
+import { ChatContext } from '../context/ChatContext'
 
 const LeftSide = () => {
 
