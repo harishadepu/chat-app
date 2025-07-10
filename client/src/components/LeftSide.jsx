@@ -2,10 +2,11 @@ import React from 'react'
 import assets from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
-import { AuthContext } from '../context/AuthContext'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { ChatContext } from '../context/chatContext'
+import { AuthContext } from '../context/AuthContext'
+
 const LeftSide = () => {
 
     const {getUsers, users, selectedUser, setSelectedUser,
