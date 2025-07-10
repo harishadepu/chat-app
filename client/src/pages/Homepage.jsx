@@ -4,7 +4,7 @@ import Message from '../components/Message';
 import RightSide from '../components/RightSide';
 
 import logo from '../assets/logo_icon.svg'
-import { ChatContext } from '../context/chatContext';
+import { ChatContext } from '../context/ChatContext';
 
 const Homepage = () => {
   const { selectedUser } = useContext(ChatContext);
