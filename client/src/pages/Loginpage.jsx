@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import logo from '../assets/logo_big.svg'
 import { useNavigate } from 'react-router-dom';
 import assets from '../assets/assets';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
+
 
 const Loginpage = () => {
   
