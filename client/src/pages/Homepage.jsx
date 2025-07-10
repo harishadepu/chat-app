@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import LeftSide from '../components/LeftSide';
 import Message from '../components/Message';
 import RightSide from '../components/RightSide';
-import { ChatContext } from '../../context/chatContext';
+//import { ChatContext } from '../context/chatContext';
 import logo from '../assets/logo_icon.svg'
 
 const Homepage = () => {
-  const { selectedUser } = useContext(ChatContext);
+  const { selectedUser } = useContext(Chat);
 
   return (
     <div className='border-gray-600 w-full h-screen sm:px-[15%] sm:py-[5%]'>
