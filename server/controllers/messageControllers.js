@@ -33,7 +33,7 @@ export const getMessages = async (req, res) => {
     const selectedUserId = req.params.id;
     const myId = req.user._id;
 
-<<<<<<< HEAD
+
     // Fetch messages exchanged between the current user and the selected user
     const messages = await Message.find({
       $or: [
@@ -41,16 +41,6 @@ export const getMessages = async (req, res) => {
         { senderId: selectedUserId, receiverId: myId },
       ]
     }).sort({ createdAt: 1 }); // optional: sort by time ascending
-=======
-        const messages = await Message.find({
-            $or :[
-                {senderId: myId, receiverId: selectedUserId},
-                {senderId: selectedUserId, receiverId: myId},
-            ]
-        })
-        await Message.updateMany({senderId: selectedUserId, receiverId: myId},{seen:true});
-        res.json({success: true, messages});
->>>>>>> 5ed2ab2a938a8cf73bd91297d18e1ee7a7747dab
 
     // Mark all messages sent by selected user as seen
     await Message.updateMany(
