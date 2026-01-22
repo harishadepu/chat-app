@@ -89,6 +89,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   // =========================
+  // UPDATE STATUS
+  // =========================
+  const updateStatus = async (statusText, statusVideo, statusPhoto) => {
+    try {
+      const { data } = await axios.put("/api/auth/update-status", {statusText, statusVideo, statusPhoto});
+      if (data.success) {
+        setAuthUser(data.user);
+        toast.success("Status updated successfully");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  // =========================
   // CONNECT SOCKET 🔥
   // =========================
   const connectSocket = (user) => {
@@ -132,6 +147,7 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         updateProfile,
+        updateStatus,
       }}
     >
       {children}

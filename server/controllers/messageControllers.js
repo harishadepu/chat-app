@@ -9,6 +9,14 @@ export const getUsersForSidebar = async (req,res)=>{
         const userId = req.user._id;
         const filterdUsers = await User.find({_id:{$ne: userId}}).select("-password");
 
+        // Expire statuses older than 24 hours
+        const now = new Date();
+        const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        await User.updateMany(
+            { "status.createdAt": { $lt: twentyFourHoursAgo } },
+            { $set: { "status.text": "", "status.video": "", "status.photo": "", "status.createdAt": null } }
+        );
+
         // count messages 
         const unseenMessages = {};
         const promises = filterdUsers.map(async(user)=>{

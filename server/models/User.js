@@ -15,6 +15,24 @@ const userSchema = new mongoose.Schema({
     },
     bio:{
         type:String
+    },
+    status:{
+        text:{
+            type:String,
+            default:""
+        },
+        video:{
+            type:String,
+            default:""
+        },
+        photo:{
+            type:String,
+            default:""
+        },
+        createdAt:{
+            type:Date,
+            default:null
+        }
     }
 },{timestamps:true});
 const User = mongoose.model("User", userSchema);

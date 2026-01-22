@@ -80,3 +80,35 @@ export const updateProfile = async(req,res)=>{
         res.json({success: false, message: err.message});
     }
 }
+
+// controller to update user status
+
+export const updateStatus = async(req,res)=>{
+    try{
+        const {statusText, statusVideo, statusPhoto} = req.body;
+        const userId = req.user._id;
+        let videoUrl = "";
+        let photoUrl = "";
+        if(statusVideo){
+            const upload = await cloudinary.uploader.upload(statusVideo, {resource_type: "video"});
+            videoUrl = upload.secure_url;
+        }
+        if(statusPhoto){
+            const upload = await cloudinary.uploader.upload(statusPhoto);
+            photoUrl = upload.secure_url;
+        }
+        const updatedUser = await User.findByIdAndUpdate(userId,{
+            status:{
+                text:statusText,
+                video: videoUrl,
+                photo: photoUrl,
+                createdAt: new Date()
+            }
+        },{new:true});
+        res.json({success: true, message: "Status updated successfully", user: updatedUser});
+    }
+    catch(err){
+        console.log(err.message);
+        res.json({success: false, message: err.message});
+    }
+}

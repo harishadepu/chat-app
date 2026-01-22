@@ -16,6 +16,8 @@ const LeftSide = () => {
     const {logout,onlineUsers} = useContext(AuthContext);
 
     const [input, setInput] = useState("")
+    const [showStatusModal, setShowStatusModal] = useState(false)
+    const [selectedStatusUser, setSelectedStatusUser] = useState(null)
 
     const navigate = useNavigate();
 
@@ -56,9 +58,15 @@ const LeftSide = () => {
                 <div className='flex flex-col leading-5'>
                     <p>{user.fullName}</p>
                     {
-                        onlineUsers.includes(user._id) ? <span className='text-green-400 text-xs'>Online</span> 
-                        :
-                         <span className='text-neutral-400 text-xs'>Offline</span>
+                        user.status?.text || user.status?.video || user.status?.photo ? (
+                            <span className='text-yellow-400 text-xs cursor-pointer' onClick={()=>{setSelectedStatusUser(user); setShowStatusModal(true)}}>
+                                {user.status.text || "Status"} {user.status.photo && "(Photo)"} {user.status.video && "(Video)"}
+                            </span>
+                        ) : (
+                            onlineUsers.includes(user._id) ? <span className='text-green-400 text-xs'>Online</span> 
+                            :
+                             <span className='text-neutral-400 text-xs'>Offline</span>
+                        )
                     }
                 </div>
                 {unseenMessages[user._id] > 0 && <p className='absolute top-4 right-4 text-xs h-5 w-5 flex justify-center
@@ -67,6 +75,21 @@ const LeftSide = () => {
         ))}
 
     </div>
+
+    {showStatusModal && selectedStatusUser && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
+            <div className='bg-[#282142] p-5 rounded-lg max-w-md w-full mx-4'>
+                <div className='flex justify-between items-center mb-4'>
+                    <h3 className='text-white text-lg'>{selectedStatusUser.fullName}'s Status</h3>
+                    <button onClick={()=>{setShowStatusModal(false); setSelectedStatusUser(null)}} className='text-white text-xl'>×</button>
+                </div>
+                {selectedStatusUser.status.text && <p className='text-white mb-4'>{selectedStatusUser.status.text}</p>}
+                {selectedStatusUser.status.photo && <img src={selectedStatusUser.status.photo} alt='Status photo' className='w-full h-auto rounded mb-4' />}
+                {selectedStatusUser.status.video && <video src={selectedStatusUser.status.video} controls className='w-full h-auto rounded' />}
+            </div>
+        </div>
+    )}
+    
     </div>
     
   )
