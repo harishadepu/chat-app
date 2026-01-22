@@ -28,26 +28,32 @@ export const getUsersForSidebar = async (req,res)=>{
 
 // get all msgs
 
-export const getMessages = async(req,res)=>{
-    try{
-        const {id:selectedUserId} = req.params;
-        const myId = req.user._id;
+export const getMessages = async (req, res) => {
+  try {
+    const selectedUserId = req.params.id;
+    const myId = req.user._id;
 
-        const messages = await Message.find({
-            $or :[
-                {senderId: myId, receiverId: selectedUserId},
-                {senderId: selectedUserId, receiverId: myId},
-            ]
-        })
-        await Message.updateMany({senderId: selectedUserId, receiverId: myId},{seen:true});
-        res.json({success: false, messages});
+    // Fetch messages exchanged between the current user and the selected user
+    const messages = await Message.find({
+      $or: [
+        { senderId: myId, receiverId: selectedUserId },
+        { senderId: selectedUserId, receiverId: myId },
+      ]
+    }).sort({ createdAt: 1 }); // optional: sort by time ascending
 
-    }
-    catch(err){
-        console.log(err.message);
-        res.json({success:false,message: err.message})
-    }
-}
+    // Mark all messages sent by selected user as seen
+    await Message.updateMany(
+      { senderId: selectedUserId, receiverId: myId, seen: false },
+      { $set: { seen: true } }
+    );
+
+    res.status(200).json({ success: true, messages });
+    
+  } catch (err) {
+    console.error("Error fetching messages:", err.message);
+    res.status(500).json({ success: false, message: "Failed to fetch messages." });
+  }
+};
 
 // api to mark msg as seen using msg id 
 

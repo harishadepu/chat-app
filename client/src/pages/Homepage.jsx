@@ -27,8 +27,8 @@ const Homepage = () => {
             <RightSide />
           </>
         ): <div className='flex flex-col justify-center items-center h-full gap-3'>
-          <img className='h-50 w-40 flex item-center flex justify-center' src={logo} alt='logo'/>
-          <h1 className='text-2xl text-white font-bold '>Chat here anytime anywhere!</h1>
+          <img className='h-40 w-30 flex item-center flex justify-center md:h-50 md:w-40' src={logo} alt='logo'/>
+          <h1 className='text-2xl text-white font-bold text-center'>Chat here anytime anywhere!</h1>
           </div>}
       </div>
     </div>
